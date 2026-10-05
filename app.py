@@ -65,8 +65,8 @@ st.divider()
 # ---------------------------------------------------------
 st.subheader("⏳ El tiempo que llevamos juntos")
 
-# Ajusta aquí la fecha exacta de su aniversario (Año, Mes, Día)
-fecha_inicio = datetime(2026, 5, 10, 0, 0, 0) # Ejemplo: 10 de mayo de 2026
+# Fecha exacta de aniversario
+fecha_inicio = datetime(2026, 5, 10, 0, 0, 0) 
 ahora = datetime.now()
 diferencia = ahora - fecha_inicio
 
@@ -92,37 +92,36 @@ st.divider()
 st.subheader("📍 Nuestra Línea de Tiempo")
 st.write("Cada gran historia tiene momentos inolvidables. Aquí están los nuestros:")
 
-# En "fotos" ahora usamos corchetes [ ] para poner una lista con los nombres de tus fotos.
 hitos =[
     {        
         "fecha": "Mayo 2026",
         "titulo": "✨ El Comienzo de Todo",
         "desc": "El día en que decidimos dar el paso y empezar este bonito camino juntos.",
-        "fotos": ["mayo1.jpeg", "mayo2.jpeg"]  # Dos fotos lado a lado
+        "fotos": ["mayo1.jpeg", "mayo2.jpeg"]  
     },
     {
         "fecha": "Junio 2026",
         "titulo": " 💐Las primeras flores que te regale amor💐",
         "desc": "Risas, buenas conversas y darnos cuenta de lo bien que la pasamos juntos.",
-        "fotos": ["junio1.jpeg","junio2.jpeg"]  # Una sola foto
+        "fotos": ["junio1.jpeg","junio2.jpeg"]  
     },
     {
         "fecha": "Julio 2026",
         "titulo": "📸 Fotos & Recuerdos",
         "desc": "Empezamos a llenar la galería de recuerdos bonitos.",
-        "fotos": ["julio1.jpeg","julio2.jpeg","julio3.jpeg","julio4.jpeg","julio5.jpeg","julio6.jpeg"]  # Dejas los corchetes vacíos si no quieres fotos en este hito
+        "fotos": ["julio1.jpeg","julio2.jpeg","julio3.jpeg","julio4.jpeg","julio5.jpeg","julio6.jpeg"]  
     },
     {
         "fecha": "Agosto 2026",
         "titulo": "❤️ Un Mes Más Juntos",
         "desc": "Seguimos sumando momentos increíbles y fortaleciendo lo nuestro.",
-        "fotos": ["agosto1.jpeg", "agosto2.jpeg","agosto3.jpeg"]  # Agrega aquí las fotos de agosto
+        "fotos": ["agosto1.jpeg", "agosto2.jpeg","agosto3.jpeg"]  
     },
     {
         "fecha": "Septiembre 2026",
         "titulo": "nuestra primera salida al cine❤️",
         "desc": "Decidí usar lo que sé de programación para crear un espacio único dedicado a ti.",
-        "fotos": ["septiembre1.jpeg", "septiembre2.jpeg", "septiembre3.jpeg","septiembre4.jpeg"]  # Tres fotos lado a lado
+        "fotos": ["septiembre1.jpeg", "septiembre2.jpeg", "septiembre3.jpeg","septiembre4.jpeg"]  
     },
     {
         "fecha": "El Futuro...",
@@ -133,7 +132,6 @@ hitos =[
 ]
 
 for hito in hitos:
-    # 1. Muestra la tarjeta del hito
     st.markdown(f"""
         <div class="timeline-card">
             <div class="timeline-date">{hito['fecha']}</div>
@@ -142,17 +140,14 @@ for hito in hitos:
         </div>
     """, unsafe_allow_html=True)
     
-    # 2. Lógica para desplegar una o múltiples fotos
     lista_fotos = hito.get("fotos", [])
     
     if lista_fotos:
-        # Si es solo 1 foto, ocupa todo el ancho
         if len(lista_fotos) == 1:
             try:
                 st.image(lista_fotos[0], use_container_width=True)
             except FileNotFoundError:
                 st.info(f"📷 Guarda la imagen '{lista_fotos[0]}' en tu carpeta.")
-        # Si hay 2 o más fotos, crea columnas iguales para alinearlas lado a lado
         else:
             columnas = st.columns(len(lista_fotos))
             for i, foto in enumerate(lista_fotos):
@@ -161,7 +156,7 @@ for hito in hitos:
                         st.image(foto, use_container_width=True)
                     except FileNotFoundError:
                         st.info(f"📷 Falta '{foto}'")
-        st.write("") # Margen inferior entre un hito y otro
+        st.write("") 
 
 st.divider()
 
@@ -175,13 +170,9 @@ tab1, tab2, tab3 = st.tabs(["Fotos Bonitas", "Momentos Divertidos", "Videos Espe
 with tab1:
     st.write("Nuestras mejores fotos juntos. ❤️")
     
-    # 1. Pon aquí el nombre de TODAS las fotos que quieras agregar
     fotos_album = ["album1.jpeg", "album2.jpeg", "album3.jpeg", "album4.jpeg","album5.jpeg","album6.jpeg","album7.jpeg","album8.jpeg"]
-    
-    # 2. Creamos 2 columnas
     cols = st.columns(2)
     
-    # 3. Recorremos la lista y repartimos las fotos (una a la izquierda, una a la derecha)
     for i, foto in enumerate(fotos_album):
         with cols[i % 2]: 
             try:
@@ -191,15 +182,20 @@ with tab1:
 
 with tab2:
     st.write("Ese video donde no parábamos de reír 😂")
-    st.video("gracioso.mp4")
+    try:
+        st.video("gracioso.mp4")
+    except:
+        st.info("Falta el video 'gracioso.mp4'")
 
 with tab3:
     st.write("Nuestros videos favoritos.")
-    st.video("boxeo.mp4")
-    st.video("tu.mp4")
-    st.video("yo.mp4")
-    st.video("primer_mes.mp4")
-    
+    videos = ["boxeo.mp4", "tu.mp4", "yo.mp4", "primer_mes.mp4"]
+    for vid in videos:
+        try:
+            st.video(vid)
+        except:
+            st.info(f"Falta el video '{vid}'")
+            
 st.divider()
 
 # ---------------------------------------------------------
@@ -242,8 +238,46 @@ q2 = st.radio(
 
 if st.button("Enviar respuestas"):
     st.snow()
-    st.annotation = st.balloons()
+    st.balloons()
     st.info("¡Respuesta correcta! La verdad es que cualquier momento juntos siempre es el mejor.")
+
+st.divider()
+
+# ---------------------------------------------------------
+# 6. NUESTRA CANCIÓN ESPECIAL (SPOTIFY)
+# ---------------------------------------------------------
+st.subheader("🎵 Nuestra Canción")
+st.write("Dale play mientras sigues bajando...")
+
+# Código HTML para incrustar el reproductor de Spotify
+spotify_iframe = """
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2DnJjbjNTV9Nd5NOa1KGba?si=4578ed72f2924eab" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+"""
+st.markdown(spotify_iframe, unsafe_allow_html=True)
+
+st.divider()
+
+# ---------------------------------------------------------
+# 7. REGALO SORPRESA (BLOQUEADO HASTA EL 10 DE OCTUBRE)
+# ---------------------------------------------------------
+st.subheader("🎁 Sorpresa de 5 Meses")
+
+fecha_aniversario = date(2026, 10, 10)
+hoy = date.today()
+
+if hoy >= fecha_aniversario:
+    st.success("🎉 ¡FELIZ 5 MESES MI AMOR! ❤️")
+    st.write("¡Por fin llegó el día! Gracias por estos meses maravillosos. Aquí tienes tu sorpresa...")
+    
+    # --- AQUÍ PONES LA FOTO O VIDEO SORPRESA ---
+    try:
+        st.image("sorpresa.jpg", caption="Te amo muchísimo ❤️", use_container_width=True)
+    except FileNotFoundError:
+        st.info("📷 Guarda tu foto sorpresa como 'sorpresa_5_meses.jpeg'")
+        
+else:
+    dias_faltantes = (fecha_aniversario - hoy).days
+    st.warning(f"🔒 **Bloqueado:** Esta sorpresa especial se abrirá automáticamente en {dias_faltantes} días (el 10 de octubre). ¡Paciencia! 😉")
 
 st.divider()
 
@@ -254,7 +288,7 @@ with st.expander("💌 Lee esta cartita rápida"):
     st.write("""
     Hola Pam ❤️
     
-    Hoy celebramos 5 meses nuestro indicador de tiempo te diria cuantos dias horas y minutos son, es hermoso todo lo que hemos vivido juntos, que bonito como hemos avanzado dia a dia y se que no estamos en el mejor momento cuando estoy escribiendo esto pero si lo llegas a leer es por que lo estamos logrando mi amor.
+    Hoy celebramos 5 meses, nuestro indicador de tiempo te diría cuántos días, horas y minutos son. Es hermoso todo lo que hemos vivido juntos, qué bonito cómo hemos avanzado día a día, y sé que no estamos en el mejor momento cuando estoy escribiendo esto, pero si lo llegas a leer es porque lo estamos logrando, mi amor.
     
     Gracias por cada día, por cada risa y por acompañarme en este camino.
     
